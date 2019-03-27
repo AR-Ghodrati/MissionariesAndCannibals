@@ -60,6 +60,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                 if (boat == BoatRouting.LEFT) {
 
+                    // Two missionaries cross left to right.
                     return MissionariesAndCannibalsBacktracking(
                         LeftSide.first - 2 to LeftSide.second
                         , RightSide.first + 2 to LeftSide.second
@@ -70,6 +71,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // Two cannibals cross left to right.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 2
                                 , RightSide.first to LeftSide.second + 2
@@ -80,6 +82,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // One missionary and one cannibal cross left to right.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second - 1
                                 , RightSide.first + 1 to RightSide.second + 1
@@ -90,6 +93,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // One missionary crosses left to right.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second
                                 , RightSide.first + 1 to RightSide.second
@@ -100,6 +104,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // One cannibal crosses left to right.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 1
                                 , RightSide.first to RightSide.second + 1
@@ -110,17 +115,29 @@ fun MissionariesAndCannibalsBacktracking(
 
                 } else {
 
+                    // Two missionaries cross right to left.
                     return MissionariesAndCannibalsBacktracking(
-                        LeftSide.first to LeftSide.second + 2
-                        , RightSide.first to LeftSide.second - 2
+                        LeftSide.first + 2 to LeftSide.second
+                        , RightSide.first - 2 to LeftSide.second
                         , 2 to 0
                         , BoatRouting.LEFT
                         , depth + 1
                     )
 
+                            ||
+
+                            // Two cannibals cross right to left.
+                            MissionariesAndCannibalsBacktracking(
+                                LeftSide.first to LeftSide.second + 2
+                                , RightSide.first to LeftSide.second - 2
+                                , 0 to 2
+                                , BoatRouting.LEFT
+                                , depth + 1
+                            )
 
                             ||
 
+                            // One missionary and one cannibal cross right to left.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second + 1
                                 , RightSide.first + 1 to RightSide.second - 1
@@ -131,6 +148,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // One missionary crosses right to left.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 1 to LeftSide.second
                                 , RightSide.first - 1 to RightSide.second
@@ -141,6 +159,7 @@ fun MissionariesAndCannibalsBacktracking(
 
                             ||
 
+                            // One cannibal crosses right to left.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 1
                                 , RightSide.first to RightSide.second - 1
