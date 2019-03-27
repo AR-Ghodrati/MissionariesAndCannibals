@@ -1,7 +1,8 @@
 import Enums.BoatRouting
 import Utils.PrintUtil
 
-val MAX_DEPTH = 20
+const val MAX_DEPTH = 20
+const val INIT_VALUE = 0
 
 
 fun main(){
@@ -16,10 +17,10 @@ fun main(){
         // Initial Data
         MissionariesAndCannibalsBacktracking(
             size to size
-            , 0 to 0
-            , 0 to 0
+            , INIT_VALUE to INIT_VALUE
+            , INIT_VALUE to INIT_VALUE
             , BoatRouting.LEFT
-            , 0
+            , INIT_VALUE
         )
 
     }
@@ -63,7 +64,7 @@ fun MissionariesAndCannibalsBacktracking(
                     // Two missionaries cross left to right.
                     return MissionariesAndCannibalsBacktracking(
                         LeftSide.first - 2 to LeftSide.second
-                        , RightSide.first + 2 to LeftSide.second
+                        , RightSide.first + 2 to RightSide.second
                         , 2 to 0
                         , BoatRouting.RIGHT
                         , depth + 1
@@ -74,8 +75,8 @@ fun MissionariesAndCannibalsBacktracking(
                             // Two cannibals cross left to right.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 2
-                                , RightSide.first to LeftSide.second + 2
-                                , 2 to 0
+                                , RightSide.first to RightSide.second + 2
+                                , 0 to 2
                                 , BoatRouting.RIGHT
                                 , depth + 1
                             )
@@ -118,7 +119,7 @@ fun MissionariesAndCannibalsBacktracking(
                     // Two missionaries cross right to left.
                     return MissionariesAndCannibalsBacktracking(
                         LeftSide.first + 2 to LeftSide.second
-                        , RightSide.first - 2 to LeftSide.second
+                        , RightSide.first - 2 to RightSide.second
                         , 2 to 0
                         , BoatRouting.LEFT
                         , depth + 1
@@ -129,7 +130,7 @@ fun MissionariesAndCannibalsBacktracking(
                             // Two cannibals cross right to left.
                             MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 2
-                                , RightSide.first to LeftSide.second - 2
+                                , RightSide.first to RightSide.second - 2
                                 , 0 to 2
                                 , BoatRouting.LEFT
                                 , depth + 1
@@ -139,8 +140,8 @@ fun MissionariesAndCannibalsBacktracking(
 
                             // One missionary and one cannibal cross right to left.
                             MissionariesAndCannibalsBacktracking(
-                                LeftSide.first - 1 to LeftSide.second + 1
-                                , RightSide.first + 1 to RightSide.second - 1
+                                LeftSide.first + 1 to LeftSide.second + 1
+                                , RightSide.first - 1 to RightSide.second - 1
                                 , 1 to 1
                                 , BoatRouting.LEFT
                                 , depth + 1
