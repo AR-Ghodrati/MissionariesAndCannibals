@@ -3,6 +3,7 @@ package Provider
 import Enums.BoatRouting
 import Model.State
 import Utils.PrintUtil
+import java.io.File
 
 object MissionariesAndCannibalsProvider {
 
@@ -43,7 +44,14 @@ object MissionariesAndCannibalsProvider {
             , Solution
         )
 
+
+        Solution_Printer.append("\r\n==========================================\n")
+        Solution_Printer.append("Solution Count : $SolutionCount")
+
         println("Solution Count : $SolutionCount")
+        // Save Result In .txt File
+        File("Results/result_$Size.txt").writeText(Solution_Printer.toString())
+
 
     }
 
@@ -64,9 +72,6 @@ boat : BoatRouting
         // Break Point
         when {
 
-            depth == MAX_DEPTH -> {
-                return false
-            }
 
             isEnd(LeftSide, boat) -> {
                 SolutionCount++
@@ -74,11 +79,12 @@ boat : BoatRouting
                 return true
             }
 
+            depth == MAX_DEPTH -> {
+                return false
+            }
 
             else -> {
 
-                //PrintUtil.printState(LeftSide, RightSide, PickUpPair, boat)
-                //println(Solution)
 
                     if (boat == BoatRouting.LEFT) {
 

@@ -2,7 +2,6 @@ package Utils
 
 import Enums.BoatRouting
 import Model.State
-import java.io.File
 
 object PrintUtil {
 
@@ -80,7 +79,6 @@ object PrintUtil {
         }
 
         println(Solution_Printer)
-        File("Results/result_$Size.txt").writeText(Solution_Printer.toString())
 
     }
 
