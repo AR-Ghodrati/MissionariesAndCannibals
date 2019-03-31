@@ -23,7 +23,7 @@ object MissionariesAndCannibalsProvider {
             , INIT_VALUE to INIT_VALUE
             , INIT_VALUE to INIT_VALUE
             , BoatRouting.LEFT
-            , INIT_VALUE
+            , 1
             , Solution
         )
 
@@ -66,6 +66,7 @@ boat : BoatRouting
                                 LeftSide.first - 2 to LeftSide.second
                                 , RightSide.first + 2 to RightSide.second
                                 , Solution, BoatRouting.RIGHT
+                                , depth
                             )
                         ) {
 
@@ -88,6 +89,7 @@ boat : BoatRouting
                                 LeftSide.first to LeftSide.second - 2
                                 , RightSide.first to RightSide.second + 2
                                 , Solution, BoatRouting.RIGHT
+                                , depth
                             )
                         ) {
 
@@ -109,6 +111,7 @@ boat : BoatRouting
                                 LeftSide.first - 1 to LeftSide.second - 1
                                 , RightSide.first + 1 to RightSide.second + 1
                                 , Solution, BoatRouting.RIGHT
+                                , depth
                             )
                         ) {
 
@@ -132,6 +135,7 @@ boat : BoatRouting
                                 LeftSide.first - 1 to LeftSide.second
                                 , RightSide.first + 1 to RightSide.second
                                 , Solution, BoatRouting.RIGHT
+                                , depth
                             )
                         ) {
 
@@ -155,6 +159,7 @@ boat : BoatRouting
                                 LeftSide.first to LeftSide.second - 1
                                 , RightSide.first to RightSide.second + 1
                                 , Solution, BoatRouting.RIGHT
+                                , depth
                             )
                         ) {
 
@@ -179,6 +184,7 @@ boat : BoatRouting
                                 LeftSide.first + 2 to LeftSide.second
                                 , RightSide.first - 2 to RightSide.second
                                 , Solution, BoatRouting.LEFT
+                                , depth
                             )
                         ) {
 
@@ -201,6 +207,7 @@ boat : BoatRouting
                                 LeftSide.first to LeftSide.second + 2
                                 , RightSide.first to RightSide.second - 2
                                 , Solution, BoatRouting.LEFT
+                                , depth
                             )
                         ) {
 
@@ -222,6 +229,7 @@ boat : BoatRouting
                                 LeftSide.first + 1 to LeftSide.second + 1
                                 , RightSide.first - 1 to RightSide.second - 1
                                 , Solution, BoatRouting.LEFT
+                                , depth
                             )
                         ) {
 
@@ -244,6 +252,7 @@ boat : BoatRouting
                                 LeftSide.first + 1 to LeftSide.second
                                 , RightSide.first - 1 to RightSide.second
                                 , Solution, BoatRouting.LEFT
+                                , depth
                             )
                         ) {
 
@@ -265,6 +274,7 @@ boat : BoatRouting
                                 LeftSide.first to LeftSide.second + 1
                                 , RightSide.first to RightSide.second - 1
                                 , Solution, BoatRouting.LEFT
+                                , depth
                             )
                         ) {
 
@@ -293,6 +303,7 @@ boat : BoatRouting
         , RightSide: Pair<Int, Int>
         , SolutionMap: MutableList<State>
         , boat: BoatRouting
+        , depth: Int
     )
             : Boolean {
 
@@ -302,19 +313,16 @@ boat : BoatRouting
 
 
         var isExistBefore = false
-        var Counter = 0
 
 
-        SolutionMap.forEach {
+        for (i in 0 until depth) {
             if (boat == BoatRouting.LEFT) {
-                if (it.boatRouting == BoatRouting.LEFT)
-                    isExistBefore = it.People == LeftSide
+                if (SolutionMap[i].boatRouting == BoatRouting.LEFT)
+                    isExistBefore = SolutionMap[i].People == LeftSide
             } else {
-                if (it.boatRouting == BoatRouting.RIGHT)
-                    isExistBefore = it.People == RightSide
+                if (SolutionMap[i].boatRouting == BoatRouting.RIGHT)
+                    isExistBefore = SolutionMap[i].People == RightSide
             }
-
-            Counter++
         }
 
         return stateCheck && !isExistBefore
