@@ -7,7 +7,7 @@ import java.io.File
 
 object MissionariesAndCannibalsProvider {
 
-    private const val MAX = 20
+    private const val MAX = 1000
     private const val MAX_DEPTH = MAX
     private const val INIT_VALUE = 0
     private lateinit var PossibleState: MutableList<Pair<Int, Int>>
@@ -174,11 +174,16 @@ boat : BoatRouting
 
 
         for (i in 0 until depth)
-            if (boat == BoatRouting.LEFT && Solution[i].boatRouting == BoatRouting.LEFT)
-                isExistBefore = Solution[i].LeftSide == LeftSide
-            else if (boat == BoatRouting.RIGHT && Solution[i].boatRouting == BoatRouting.RIGHT)
-                isExistBefore = Solution[i].RightSide == RightSide
-
+            if (boat == BoatRouting.LEFT && Solution[i].boatRouting == BoatRouting.LEFT) {
+                if (Solution[i].LeftSide == LeftSide) {
+                    isExistBefore = true
+                    break
+                }
+            } else if (boat == BoatRouting.RIGHT && Solution[i].boatRouting == BoatRouting.RIGHT)
+                if (Solution[i].RightSide == RightSide) {
+                    isExistBefore = true
+                    break
+                }
 
         return stateCheck && !isExistBefore
 
