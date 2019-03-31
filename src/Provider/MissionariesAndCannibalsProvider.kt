@@ -10,14 +10,21 @@ object MissionariesAndCannibalsProvider {
     private const val MAX_DEPTH = MAX
     private const val INIT_VALUE = 0
     private lateinit var Solution: MutableList<State>
-    private var SolutionCount: Int = INIT_VALUE
     private lateinit var Solution_Printer: StringBuilder
+    private var SolutionCount: Int = INIT_VALUE
+    private var Size = 0
 
     fun exec(size: Int) {
 
 
+        Size = size
         Solution = ArrayList()
         Solution_Printer = StringBuilder()
+
+        Solution_Printer.append("Solution For $Size Missionaries & $Size Cannibals")
+        Solution_Printer.append("\r\n")
+
+
 
         InitList(Solution, MAX)
 
@@ -30,7 +37,6 @@ object MissionariesAndCannibalsProvider {
 
         MissionariesAndCannibalsBacktracking(
             size to size
-            , INIT_VALUE to INIT_VALUE
             , INIT_VALUE to INIT_VALUE
             , BoatRouting.LEFT
             , 1
@@ -51,7 +57,6 @@ boat : BoatRouting
     private fun MissionariesAndCannibalsBacktracking(
         LeftSide: Pair<Int, Int>
         , RightSide: Pair<Int, Int>
-        , PickUpPair: Pair<Int, Int>
         , boat: BoatRouting, depth: Int
         , Solution: MutableList<State>
     ): Boolean {
@@ -59,16 +64,16 @@ boat : BoatRouting
         // Break Point
         when {
 
-            isEnd(LeftSide, boat) -> {
-                // PrintUtil.printState(LeftSide, RightSide, PickUpPair, boat)
-                SolutionCount++
-                PrintUtil.printState(Solution, Solution_Printer, SolutionCount)
-                return true
-            }
-
             depth == MAX_DEPTH -> {
                 return false
             }
+
+            isEnd(LeftSide, boat) -> {
+                SolutionCount++
+                PrintUtil.printState(Solution, depth, Size, Solution_Printer, SolutionCount)
+                return true
+            }
+
 
             else -> {
 
@@ -90,7 +95,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 2 to LeftSide.second
                                 , RightSide.first + 2 to RightSide.second
-                                , 2 to 0
                                 , BoatRouting.RIGHT
                                 , depth + 1
                                 , Solution.also {
@@ -120,7 +124,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 2
                                 , RightSide.first to RightSide.second + 2
-                                , 0 to 2
                                 , BoatRouting.RIGHT
                                 , depth + 1
                                 , Solution.also {
@@ -149,7 +152,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second - 1
                                 , RightSide.first + 1 to RightSide.second + 1
-                                , 1 to 1
                                 , BoatRouting.RIGHT
                                 , depth + 1
                                 , Solution.also {
@@ -180,7 +182,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second
                                 , RightSide.first + 1 to RightSide.second
-                                , 1 to 0
                                 , BoatRouting.RIGHT
                                 , depth + 1
                                 , Solution.also {
@@ -211,7 +212,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 1
                                 , RightSide.first to RightSide.second + 1
-                                , 0 to 1
                                 , BoatRouting.RIGHT
                                 , depth + 1
                                 , Solution.also {
@@ -243,7 +243,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 2 to LeftSide.second
                                 , RightSide.first - 2 to RightSide.second
-                                , 2 to 0
                                 , BoatRouting.LEFT
                                 , depth + 1
                                 , Solution.also {
@@ -273,7 +272,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 2
                                 , RightSide.first to RightSide.second - 2
-                                , 0 to 2
                                 , BoatRouting.LEFT
                                 , depth + 1
                                 , Solution.also {
@@ -302,7 +300,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 1 to LeftSide.second + 1
                                 , RightSide.first - 1 to RightSide.second - 1
-                                , 1 to 1
                                 , BoatRouting.LEFT
                                 , depth + 1
                                 , Solution.also {
@@ -332,7 +329,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 1 to LeftSide.second
                                 , RightSide.first - 1 to RightSide.second
-                                , 1 to 0
                                 , BoatRouting.LEFT
                                 , depth + 1
                                 , Solution.also {
@@ -361,7 +357,6 @@ boat : BoatRouting
                             if (MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 1
                                 , RightSide.first to RightSide.second - 1
-                                , 0 to 1
                                 , BoatRouting.LEFT
                                 , depth + 1
                                 , Solution.also {
