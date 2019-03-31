@@ -1,45 +1,46 @@
 package Utils
 
 import Enums.BoatRouting
+import Model.State
 
 object PrintUtil {
 
-    fun printState(
-        LeftSide: Pair<Int, Int>,
-        RightSide: Pair<Int, Int>
-        , PickUpPair: Pair<Int, Int>
-        , boat: BoatRouting
-    ) {
+    fun printState(Solution: MutableList<State>) {
 
-        if (boat == BoatRouting.LEFT) {
-            if (PickUpPair.first == 2)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(M,M)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.first == 1 && PickUpPair.second == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(M,C)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.second == 2)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(C,C)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.first == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(M,_)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.second == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(_,C)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
-            else
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |(_,_)~~~~~~| (MR:${RightSide.first},CR:${RightSide.second})")
+        // Remove NOT_SET Buffer
+        Solution.removeAll { it.boatRouting == BoatRouting.NOT_SET }
+        Solution.forEach {
+
+            if (it.boatRouting == BoatRouting.LEFT) {
+                if (it.PickUpPair.first == 2)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(M,M)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.first == 1 && it.PickUpPair.second == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(M,C)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.second == 2)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(C,C)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.first == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(M,_)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.second == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(_,C)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |(_,_)~~~~~~| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
 
 
-        } else {
-            if (PickUpPair.first == 2)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(M,M)| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.first == 1 && PickUpPair.second == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(M,C)| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.second == 2)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(C,C)| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.first == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(M,_)| (MR:${RightSide.first},CR:${RightSide.second})")
-            else if (PickUpPair.second == 1)
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(_,C)| (MR:${RightSide.first},CR:${RightSide.second})")
-            else
-                println("(ML:${LeftSide.first},CL:${LeftSide.second}) |~~~~~~(_,_)| (MR:${RightSide.first},CR:${RightSide.second})")
+            } else {
+                if (it.PickUpPair.first == 2)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(M,M)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.first == 1 && it.PickUpPair.second == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(M,C)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.second == 2)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(C,C)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.first == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(M,_)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else if (it.PickUpPair.second == 1)
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(_,C)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
+                else
+                    println("(ML:${it.LeftSide.first},CL:${it.LeftSide.second}) |~~~~~~(_,_)| (MR:${it.RightSide.first},CR:${it.RightSide.second})")
 
+            }
         }
 
     }

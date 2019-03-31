@@ -4,7 +4,7 @@ import Provider.MissionariesAndCannibalsProvider
 fun main(){
 
 
-    println("Enter Number Of People : ")
+    println("Enter Number Of NextState : ")
 
     val size = readLine()?.toInt()
 
