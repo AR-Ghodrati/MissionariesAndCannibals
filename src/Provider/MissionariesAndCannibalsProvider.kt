@@ -37,7 +37,7 @@ object MissionariesAndCannibalsProvider {
 
 
 
-        InitList(Solution, MAX)
+        InitList()
 
         Solution[0] = State(
             size to size
@@ -97,7 +97,7 @@ boat : BoatRouting
                         if (isPromising(
                                 LeftSide.first - possibleState.first to LeftSide.second - possibleState.second
                                 , RightSide.first + possibleState.first to RightSide.second + possibleState.second
-                                , Solution, BoatRouting.RIGHT
+                                , BoatRouting.RIGHT
                                 , depth
                             )
                         ) {
@@ -125,7 +125,7 @@ boat : BoatRouting
                         if (isPromising(
                                 LeftSide.first + possibleState.first to LeftSide.second + possibleState.second
                                 , RightSide.first - possibleState.first to RightSide.second - possibleState.second
-                                , Solution, BoatRouting.LEFT
+                                , BoatRouting.LEFT
                                 , depth
                             )
                         ) {
@@ -158,13 +158,14 @@ boat : BoatRouting
     private fun isPromising(
         LeftSide: Pair<Int, Int>
         , RightSide: Pair<Int, Int>
-        , SolutionMap: MutableList<State>
         , boat: BoatRouting
         , depth: Int
     )
             : Boolean {
 
         val stateCheck = (LeftSide.first >= 0 && RightSide.first >= 0 && LeftSide.second >= 0 && RightSide.second >= 0
+                && (LeftSide.first <= Size && LeftSide.second <= Size)
+                && (RightSide.first <= Size && RightSide.second <= Size)
                 && (LeftSide.first == 0 || LeftSide.first >= LeftSide.second)
                 && (RightSide.first == 0 || RightSide.first >= RightSide.second))
 
@@ -172,15 +173,12 @@ boat : BoatRouting
         var isExistBefore = false
 
 
-        for (i in 0 until depth) {
-            if (boat == BoatRouting.LEFT) {
-                if (SolutionMap[i].boatRouting == BoatRouting.LEFT)
-                    isExistBefore = SolutionMap[i].LeftSide == LeftSide
-            } else {
-                if (SolutionMap[i].boatRouting == BoatRouting.RIGHT)
-                    isExistBefore = SolutionMap[i].RightSide == RightSide
-            }
-        }
+        for (i in 0 until depth)
+            if (boat == BoatRouting.LEFT && Solution[i].boatRouting == BoatRouting.LEFT)
+                isExistBefore = Solution[i].LeftSide == LeftSide
+            else if (boat == BoatRouting.RIGHT && Solution[i].boatRouting == BoatRouting.RIGHT)
+                isExistBefore = Solution[i].RightSide == RightSide
+
 
         return stateCheck && !isExistBefore
 
@@ -190,8 +188,8 @@ boat : BoatRouting
         return LeftSide.first == 0 && LeftSide.second == 0 && boat == BoatRouting.RIGHT
     }
 
-    private fun InitList(Solution: MutableList<State>, size: Int) {
-        for (i in 0..size)
+    private fun InitList() {
+        for (i in 0..MAX_DEPTH)
             Solution.add(
                 State(
                     Int.MIN_VALUE to Int.MIN_VALUE
