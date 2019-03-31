@@ -7,9 +7,10 @@ import java.io.File
 
 object MissionariesAndCannibalsProvider {
 
-    private const val MAX = 50
+    private const val MAX = 20
     private const val MAX_DEPTH = MAX
     private const val INIT_VALUE = 0
+    private lateinit var PossibleState: MutableList<Pair<Int, Int>>
     private lateinit var Solution: MutableList<State>
     private lateinit var Solution_Printer: StringBuilder
     private var SolutionCount: Int = INIT_VALUE
@@ -20,6 +21,15 @@ object MissionariesAndCannibalsProvider {
 
         Size = size
         Solution = ArrayList()
+
+        PossibleState = mutableListOf(
+            2 to 0  // Two missionaries cross
+            , 0 to 2  // Two cannibals cross
+            , 1 to 1  // One missionary and One cannibal
+            , 1 to 0  // One missionary cross
+            , 0 to 1  // One cannibal cross
+        )
+
         Solution_Printer = StringBuilder()
 
         Solution_Printer.append("Solution For $Size Missionaries & $Size Cannibals")
@@ -41,7 +51,6 @@ object MissionariesAndCannibalsProvider {
             , INIT_VALUE to INIT_VALUE
             , BoatRouting.LEFT
             , 1
-            , Solution
         )
 
 
@@ -51,6 +60,8 @@ object MissionariesAndCannibalsProvider {
         println("Solution Count : $SolutionCount")
         // Save Result In .txt File
         File("Results/result_$Size.txt").writeText(Solution_Printer.toString())
+
+
     }
 
     /*
@@ -64,11 +75,9 @@ boat : BoatRouting
         LeftSide: Pair<Int, Int>
         , RightSide: Pair<Int, Int>
         , boat: BoatRouting, depth: Int
-        , Solution: MutableList<State>
     ): Boolean {
 
         when {
-
 
             isEnd(LeftSide, boat) -> {
                 SolutionCount++
@@ -82,302 +91,65 @@ boat : BoatRouting
 
             else -> {
 
+                for (possibleState in PossibleState) {
 
                     if (boat == BoatRouting.LEFT) {
-
-                        // Check Is Next State Promising
                         if (isPromising(
-                                LeftSide.first - 2 to LeftSide.second
-                                , RightSide.first + 2 to RightSide.second
+                                LeftSide.first - possibleState.first to LeftSide.second - possibleState.second
+                                , RightSide.first + possibleState.first to RightSide.second + possibleState.second
                                 , Solution, BoatRouting.RIGHT
                                 , depth
                             )
                         ) {
 
-                            // Two missionaries cross left to right.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first - 2 to LeftSide.second
-                                , RightSide.first + 2 to RightSide.second
+
+                            // Add Next State To Memory
+                            Solution[depth] = State(
+                                LeftSide.first - possibleState.first to LeftSide.second - possibleState.second
+                                , RightSide.first + possibleState.first to RightSide.second + possibleState.second
+                                , possibleState
                                 , BoatRouting.RIGHT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first - 2 to LeftSide.second
-                                            , RightSide.first + 2 to RightSide.second
-                                            , 2 to 0
-                                            , BoatRouting.RIGHT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-                        }
-
-
-                        if (isPromising(
-                                LeftSide.first to LeftSide.second - 2
-                                , RightSide.first to RightSide.second + 2
-                                , Solution, BoatRouting.RIGHT
-                                , depth
                             )
-                        ) {
 
-                            // Two cannibals cross left to right.
                             if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first to LeftSide.second - 2
-                                , RightSide.first to RightSide.second + 2
-                                , BoatRouting.RIGHT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first to LeftSide.second - 2
-                                            , RightSide.first to RightSide.second + 2
-                                            , 0 to 2
-                                            , BoatRouting.RIGHT
-                                        )
-                                    }
+                                    LeftSide.first - possibleState.first to LeftSide.second - possibleState.second
+                                    , RightSide.first + possibleState.first to RightSide.second + possibleState.second
+                                    , BoatRouting.RIGHT
+                                    , depth + 1
                                 )
                             ) {
                             }
                         }
-
-                        if (isPromising(
-                                LeftSide.first - 1 to LeftSide.second - 1
-                                , RightSide.first + 1 to RightSide.second + 1
-                                , Solution, BoatRouting.RIGHT
-                                , depth
-                            )
-                        ) {
-
-                            // One missionary and one cannibal cross left to right.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first - 1 to LeftSide.second - 1
-                                , RightSide.first + 1 to RightSide.second + 1
-                                , BoatRouting.RIGHT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first - 1 to LeftSide.second - 1
-                                            , RightSide.first + 1 to RightSide.second + 1
-                                            , 1 to 1
-                                            , BoatRouting.RIGHT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
-                        }
-
-
-                        if (isPromising(
-                                LeftSide.first - 1 to LeftSide.second
-                                , RightSide.first + 1 to RightSide.second
-                                , Solution, BoatRouting.RIGHT
-                                , depth
-                            )
-                        ) {
-
-                            // One missionary crosses left to right.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first - 1 to LeftSide.second
-                                , RightSide.first + 1 to RightSide.second
-                                , BoatRouting.RIGHT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first - 1 to LeftSide.second
-                                            , RightSide.first + 1 to RightSide.second
-                                            , 1 to 0
-                                            , BoatRouting.RIGHT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
-                        }
-
-
-                        if (isPromising(
-                                LeftSide.first to LeftSide.second - 1
-                                , RightSide.first to RightSide.second + 1
-                                , Solution, BoatRouting.RIGHT
-                                , depth
-                            )
-                        ) {
-
-                            // One cannibal crosses left to right.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first to LeftSide.second - 1
-                                , RightSide.first to RightSide.second + 1
-                                , BoatRouting.RIGHT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first to LeftSide.second - 1
-                                            , RightSide.first to RightSide.second + 1
-                                            , 0 to 1
-                                            , BoatRouting.RIGHT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
-                        }
-
                     } else {
 
                         if (isPromising(
-                                LeftSide.first + 2 to LeftSide.second
-                                , RightSide.first - 2 to RightSide.second
+                                LeftSide.first + possibleState.first to LeftSide.second + possibleState.second
+                                , RightSide.first - possibleState.first to RightSide.second - possibleState.second
                                 , Solution, BoatRouting.LEFT
                                 , depth
                             )
                         ) {
 
-                            // Two missionaries cross right to left.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first + 2 to LeftSide.second
-                                , RightSide.first - 2 to RightSide.second
+                            Solution[depth] = State(
+                                LeftSide.first + possibleState.first to LeftSide.second + possibleState.second
+                                , RightSide.first - possibleState.first to RightSide.second - possibleState.second
+                                , possibleState
                                 , BoatRouting.LEFT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first + 2 to LeftSide.second
-                                            , RightSide.first - 2 to RightSide.second
-                                            , 2 to 0
-                                            , BoatRouting.LEFT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
-                        }
-
-                        if (isPromising(
-                                LeftSide.first to LeftSide.second + 2
-                                , RightSide.first to RightSide.second - 2
-                                , Solution, BoatRouting.LEFT
-                                , depth
                             )
-                        ) {
 
-                            // Two cannibals cross right to left.
                             if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first to LeftSide.second + 2
-                                , RightSide.first to RightSide.second - 2
-                                , BoatRouting.LEFT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first to LeftSide.second + 2
-                                            , RightSide.first to RightSide.second - 2
-                                            , 0 to 2
-                                            , BoatRouting.LEFT
-                                        )
-                                    }
+                                    LeftSide.first + possibleState.first to LeftSide.second + possibleState.second
+                                    , RightSide.first - possibleState.first to RightSide.second - possibleState.second
+                                    , BoatRouting.LEFT
+                                    , depth + 1
                                 )
                             ) {
                             }
-                        }
-
-                        if (isPromising(
-                                LeftSide.first + 1 to LeftSide.second + 1
-                                , RightSide.first - 1 to RightSide.second - 1
-                                , Solution, BoatRouting.LEFT
-                                , depth
-                            )
-                        ) {
-
-                            // One missionary and one cannibal cross right to left.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first + 1 to LeftSide.second + 1
-                                , RightSide.first - 1 to RightSide.second - 1
-                                , BoatRouting.LEFT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first + 1 to LeftSide.second + 1
-                                            , RightSide.first - 1 to RightSide.second - 1
-                                            , 1 to 1
-                                            , BoatRouting.LEFT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
-                        }
-
-                        if (isPromising(
-                                LeftSide.first + 1 to LeftSide.second
-                                , RightSide.first - 1 to RightSide.second
-                                , Solution, BoatRouting.LEFT
-                                , depth
-                            )
-                        ) {
-
-                            // One missionary crosses right to left.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first + 1 to LeftSide.second
-                                , RightSide.first - 1 to RightSide.second
-                                , BoatRouting.LEFT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first + 1 to LeftSide.second
-                                            , RightSide.first - 1 to RightSide.second
-                                            , 1 to 0
-                                            , BoatRouting.LEFT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-                        }
-
-                        if (isPromising(
-                                LeftSide.first to LeftSide.second + 1
-                                , RightSide.first to RightSide.second - 1
-                                , Solution, BoatRouting.LEFT
-                                , depth
-                            )
-                        ) {
-
-                            // One cannibal crosses right to left.
-                            if (MissionariesAndCannibalsBacktracking(
-                                LeftSide.first to LeftSide.second + 1
-                                , RightSide.first to RightSide.second - 1
-                                , BoatRouting.LEFT
-                                , depth + 1
-                                    , Solution.also {
-                                        // Add Next State To Memory
-                                        it[depth] = State(
-                                            LeftSide.first to LeftSide.second + 1
-                                            , RightSide.first to RightSide.second - 1
-                                            , 0 to 1
-                                            , BoatRouting.LEFT
-                                        )
-                                    }
-                                )
-                            ) {
-                            }
-
                         }
                     }
+                }
                 return false
+
             }
         }
     }
