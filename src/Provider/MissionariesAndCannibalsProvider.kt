@@ -42,16 +42,18 @@ boat : BoatRouting
         , PickUpPair: Pair<Int, Int>
         , boat: BoatRouting, depth: Int
         , Solution: MutableList<State>
-    ) {
+    ): Boolean {
 
         // Break Point
         when {
 
             isEnd(LeftSide, boat) -> {
                 PrintUtil.printState(LeftSide, RightSide, PickUpPair, boat)
+                return true
             }
 
             depth == MAX_DEPTH -> {
+                return false
             }
 
             else -> {
@@ -71,7 +73,7 @@ boat : BoatRouting
                         ) {
 
                             // Two missionaries cross left to right.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 2 to LeftSide.second
                                 , RightSide.first + 2 to RightSide.second
                                 , 2 to 0
@@ -94,7 +96,7 @@ boat : BoatRouting
                         ) {
 
                             // Two cannibals cross left to right.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 2
                                 , RightSide.first to RightSide.second + 2
                                 , 0 to 2
@@ -116,7 +118,7 @@ boat : BoatRouting
                         ) {
 
                             // One missionary and one cannibal cross left to right.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second - 1
                                 , RightSide.first + 1 to RightSide.second + 1
                                 , 1 to 1
@@ -140,7 +142,7 @@ boat : BoatRouting
                         ) {
 
                             // One missionary crosses left to right.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first - 1 to LeftSide.second
                                 , RightSide.first + 1 to RightSide.second
                                 , 1 to 0
@@ -164,7 +166,7 @@ boat : BoatRouting
                         ) {
 
                             // One cannibal crosses left to right.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second - 1
                                 , RightSide.first to RightSide.second + 1
                                 , 0 to 1
@@ -189,7 +191,7 @@ boat : BoatRouting
                         ) {
 
                             // Two missionaries cross right to left.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 2 to LeftSide.second
                                 , RightSide.first - 2 to RightSide.second
                                 , 2 to 0
@@ -212,7 +214,7 @@ boat : BoatRouting
                         ) {
 
                             // Two cannibals cross right to left.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 2
                                 , RightSide.first to RightSide.second - 2
                                 , 0 to 2
@@ -234,7 +236,7 @@ boat : BoatRouting
                         ) {
 
                             // One missionary and one cannibal cross right to left.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 1 to LeftSide.second + 1
                                 , RightSide.first - 1 to RightSide.second - 1
                                 , 1 to 1
@@ -257,7 +259,7 @@ boat : BoatRouting
                         ) {
 
                             // One missionary crosses right to left.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first + 1 to LeftSide.second
                                 , RightSide.first - 1 to RightSide.second
                                 , 1 to 0
@@ -279,7 +281,7 @@ boat : BoatRouting
                         ) {
 
                             // One cannibal crosses right to left.
-                            MissionariesAndCannibalsBacktracking(
+                            return MissionariesAndCannibalsBacktracking(
                                 LeftSide.first to LeftSide.second + 1
                                 , RightSide.first to RightSide.second - 1
                                 , 0 to 1
@@ -293,6 +295,7 @@ boat : BoatRouting
 
                         }
                     }
+                return false
             }
         }
     }
