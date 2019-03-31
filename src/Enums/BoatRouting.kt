@@ -1,5 +1,5 @@
 package Enums
 
 enum class BoatRouting {
-    LEFT, RIGHT
+    LEFT, RIGHT, NOT_SET
 }

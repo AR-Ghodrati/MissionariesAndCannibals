@@ -12,9 +12,11 @@ object MissionariesAndCannibalsProvider {
 
     fun exec(size: Int) {
 
-        Solution = mutableListOf(
-            State(size to size, BoatRouting.LEFT)
-        )
+
+        Solution = ArrayList()
+        InitList(Solution, 100)
+
+        Solution[0] = State(size to size, BoatRouting.LEFT)
 
         MissionariesAndCannibalsBacktracking(
             size to size
@@ -76,9 +78,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(RightSide.first + 2 to RightSide.second, BoatRouting.RIGHT)
-                                    )
+                                    it[depth] = State(RightSide.first + 2 to RightSide.second, BoatRouting.RIGHT)
                                 }
                             )
                         }
@@ -100,9 +100,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(RightSide.first to RightSide.second + 2, BoatRouting.RIGHT)
-                                    )
+                                    it[depth] = State(RightSide.first to RightSide.second + 2, BoatRouting.RIGHT)
                                 }
                             )
                         }
@@ -123,9 +121,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(RightSide.first + 1 to RightSide.second + 1, BoatRouting.RIGHT)
-                                    )
+                                    it[depth] = State(RightSide.first + 1 to RightSide.second + 1, BoatRouting.RIGHT)
                                 }
                             )
 
@@ -148,9 +144,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(RightSide.first + 1 to RightSide.second, BoatRouting.RIGHT)
-                                    )
+                                    it[depth] = State(RightSide.first + 1 to RightSide.second, BoatRouting.RIGHT)
                                 }
                             )
 
@@ -173,9 +167,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(RightSide.first to RightSide.second + 1, BoatRouting.RIGHT)
-                                    )
+                                    it[depth] = State(RightSide.first to RightSide.second + 1, BoatRouting.RIGHT)
                                 }
                             )
 
@@ -199,9 +191,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(LeftSide.first + 2 to LeftSide.second, BoatRouting.LEFT)
-                                    )
+                                    it[depth] = State(LeftSide.first + 2 to LeftSide.second, BoatRouting.LEFT)
                                 }
                             )
 
@@ -223,9 +213,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(LeftSide.first to LeftSide.second + 2, BoatRouting.LEFT)
-                                    )
+                                    it[depth] = State(LeftSide.first to LeftSide.second + 2, BoatRouting.LEFT)
                                 }
                             )
                         }
@@ -246,9 +234,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(LeftSide.first + 1 to LeftSide.second + 1, BoatRouting.LEFT)
-                                    )
+                                    it[depth] = State(LeftSide.first + 1 to LeftSide.second + 1, BoatRouting.LEFT)
                                 }
                             )
 
@@ -270,9 +256,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(LeftSide.first + 1 to LeftSide.second, BoatRouting.LEFT)
-                                    )
+                                    it[depth] = State(LeftSide.first + 1 to LeftSide.second, BoatRouting.LEFT)
                                 }
                             )
                         }
@@ -293,9 +277,7 @@ boat : BoatRouting
                                 , depth + 1
                                 , Solution.also {
                                     // Add Next State To Memory
-                                    it.add(
-                                        State(LeftSide.first to LeftSide.second + 1, BoatRouting.LEFT)
-                                    )
+                                    it[depth] = State(LeftSide.first to LeftSide.second + 1, BoatRouting.LEFT)
                                 }
                             )
 
@@ -320,6 +302,8 @@ boat : BoatRouting
 
 
         var isExistBefore = false
+        var Counter = 0
+
 
         SolutionMap.forEach {
             if (boat == BoatRouting.LEFT) {
@@ -329,6 +313,8 @@ boat : BoatRouting
                 if (it.boatRouting == BoatRouting.RIGHT)
                     isExistBefore = it.People == RightSide
             }
+
+            Counter++
         }
 
         return stateCheck && !isExistBefore
@@ -339,5 +325,10 @@ boat : BoatRouting
         return LeftSide.first == 0 && LeftSide.second == 0 && boat == BoatRouting.RIGHT
     }
 
+    private fun InitList(Solution: MutableList<State>, size: Int) {
+
+        for (i in 0..size) Solution.add(State(Int.MIN_VALUE to Int.MIN_VALUE, BoatRouting.NOT_SET))
+
+    }
 
 }
