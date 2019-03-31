@@ -10,11 +10,15 @@ object MissionariesAndCannibalsProvider {
     private const val MAX_DEPTH = MAX
     private const val INIT_VALUE = 0
     private lateinit var Solution: MutableList<State>
+    private var SolutionCount: Int = INIT_VALUE
+    private lateinit var Solution_Printer: StringBuilder
 
     fun exec(size: Int) {
 
 
         Solution = ArrayList()
+        Solution_Printer = StringBuilder()
+
         InitList(Solution, MAX)
 
         Solution[0] = State(
@@ -32,6 +36,8 @@ object MissionariesAndCannibalsProvider {
             , 1
             , Solution
         )
+
+        println("Solution Count : $SolutionCount")
 
     }
 
@@ -55,7 +61,8 @@ boat : BoatRouting
 
             isEnd(LeftSide, boat) -> {
                 // PrintUtil.printState(LeftSide, RightSide, PickUpPair, boat)
-                PrintUtil.printState(Solution)
+                SolutionCount++
+                PrintUtil.printState(Solution, Solution_Printer, SolutionCount)
                 return true
             }
 
@@ -96,8 +103,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            )
-                                return true
+                            ) {
+                            }
                         }
 
 
@@ -126,7 +133,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
                         }
 
                         if (isPromising(
@@ -154,7 +162,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
 
@@ -184,7 +193,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
 
@@ -214,7 +224,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
 
@@ -245,7 +256,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
 
@@ -274,7 +286,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
                         }
 
                         if (isPromising(
@@ -302,7 +315,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
 
@@ -331,7 +345,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
                         }
 
                         if (isPromising(
@@ -359,7 +374,8 @@ boat : BoatRouting
                                         )
                                 }
                                 )
-                            ) return true
+                            ) {
+                            }
 
                         }
                     }
