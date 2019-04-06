@@ -5,7 +5,7 @@ import Model.State
 
 object PrintUtil {
 
-    fun printState(
+    fun saveResult(
         Solution: MutableList<State>,
         depth: Int,
         Size: Int,
@@ -77,9 +77,6 @@ object PrintUtil {
                 }
             }
         }
-
-        println(Solution_Printer)
-
     }
 
 }

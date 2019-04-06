@@ -53,14 +53,13 @@ object MissionariesAndCannibalsProvider {
             , 1
         )
 
-
         Solution_Printer.append("\r\n==========================================\n")
         Solution_Printer.append("Solution Count : $SolutionCount")
 
         println("Solution Count : $SolutionCount")
         // Save Result In .txt File
         File("Results/result_$Size.txt").writeText(Solution_Printer.toString())
-
+        println("ResultSaved in Results/result_$Size.txt")
 
     }
 
@@ -81,7 +80,7 @@ boat : BoatRouting
 
             isEnd(LeftSide, boat) -> {
                 SolutionCount++
-                PrintUtil.printState(Solution, depth, Size, Solution_Printer, SolutionCount)
+                PrintUtil.saveResult(Solution, depth, Size, Solution_Printer, SolutionCount)
                 return true
             }
 

@@ -1,4 +1,0 @@
-Solution For 5 Missionaries & 5 Cannibals
-
-==========================================
-Solution Count : 0
